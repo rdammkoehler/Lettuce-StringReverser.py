@@ -20,7 +20,7 @@ lettuce tests
 
 You should see output like this (note, on my Mac I can't see the lines output, presume its my color scheme)
 
-```gherkin
+```bash
 Feature: Reverse Words in a String                                                    # tests/features/reverse.feature:1
   In order to read backwards                                                          # tests/features/reverse.feature:2
   readers must have the words in their text reveresed                                 # tests/features/reverse.feature:3
