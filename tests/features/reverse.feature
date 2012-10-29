@@ -26,3 +26,18 @@ Feature: Reverse Words in a String
     Given a String Reverser
     When I reverse the string "Rats Live on no Evil Star"
     Then the result is "Star Evil no on Live Rats"
+
+  Scenario: Consolidated Table Example
+    Given a String Reverser
+    When I reverse these strings:
+      | input                                                          |
+      | A                                                              |
+      | Bacon                                                          |
+      | Bacon is the life blood of Agile Software Development          |
+      | Rats Live on no Evil Star                                      |
+    Then the results are:
+      | output                                                         |
+      | A                                                              |
+      | Bacon                                                          |
+      | Development Software Agile of blood life the is Bacon          |
+      | Star Evil no on Live Rats                                      |

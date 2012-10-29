@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
 from lettuce import step, world
 from string_reverser.string_reverser import Reverser 
 
@@ -15,3 +16,17 @@ def when_i_reverse_the_string_group1(step, group1):
 @step(u'Then the result is "([^"]*)"')
 def then_the_result_is_group1(step, group1):
     assert world.result == group1
+
+@step('I reverse these strings:')
+def when_i_reverse_these_strings(step):
+    outputs = list()
+    for input in step.hashes:
+        outputs.append(world.reverser.reverse(input['input']))
+    outputs.reverse()
+    world.outputs = outputs
+
+@step('the results are:')
+def then_the_results_are(step):
+    for expected in step.hashes:
+        assert world.outputs.pop() == expected['output']
+        
