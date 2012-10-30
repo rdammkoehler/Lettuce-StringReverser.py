@@ -41,3 +41,15 @@ Feature: Reverse Words in a String
       | Bacon                                                          |
       | Development Software Agile of blood life the is Bacon          |
       | Star Evil no on Live Rats                                      |
+
+  Scenario Outline: Outline Example
+    Given a String Reverser
+    When I reverse the string "<a string>"
+    Then the result is "<reversed string>"
+
+  Examples:
+    | a string                                              | reversed string                                       |
+    | A                                                     | A                                                     |
+    | bacon                                                 | bacon                                                 |
+    | Bacon is the life blood of Agile Software Development | Development Software Agile of blood life the is Bacon |
+    | Rats Live on no Evil Star                             | Star Evil no on Live Rats                             |

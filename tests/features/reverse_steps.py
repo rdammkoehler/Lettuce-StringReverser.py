@@ -29,4 +29,3 @@ def when_i_reverse_these_strings(step):
 def then_the_results_are(step):
     for expected in step.hashes:
         assert world.outputs.pop() == expected['output']
-        
