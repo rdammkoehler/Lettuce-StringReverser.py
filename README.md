@@ -482,8 +482,54 @@ lettuce tests
 Your output should look like this;
 
 ```bash
+Feature: Reverse Words in a String                    # tests/features/reverse.feature:1
+  In order to read backwards                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed # tests/features/reverse.feature:3
+
+  Scenario: Empty String Reversal                     # tests/features/reverse.feature:5
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:8
+    When I reverse the string ""                      # tests/features/reverse_s    When I reverse the string ""                      # tests/features/reverse_steps.py:12
+    Then the result is ""                             # tests/features/reverse_s    Then the result is ""                             # tests/features/reverse_steps.py:16
+
+1 feature (1 passed)
+1 scenario (1 passed)
+3 steps (3 passed)
+```
+
+## Adding more _scenarios_
+
+Go back to your _reverse.feature_ file and add another _scenario_ to the file;
+
+```gherkin
+  Scenario: Single Character Reversal
+    Given a String Reverser
+    When I reverse the string "A"
+    Then the result is "A"
+```
+
+## Run again
+
+```bash
+lettuce tests
+```
+
+Your output should look like this;
+
+```bash
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Lazy Route: Just use the repo
 
