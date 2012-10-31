@@ -239,7 +239,67 @@ to our String Reverser.
 lettuce tests
 ```
 
+The output will look like this;
+
+```bash
+Feature: Reverse Words in a String                    # tests/features/reverse.feature:1
+  In order to read backwards                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed # tests/features/reverse.feature:3
+
+  Scenario: Empty String Reversal                     # tests/features/reverse.feature:5
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:15
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/lettuce/core.py", line 141, in __call__
+        ret = self.function(self.step, *args, **kw)
+      File "/Users/rich/projects/python/lettuce_demo/tests/features/reverse_steps.py", line 16, in given_a_string_reverser
+        world.reverser = Reverser()
+    NameError: global name 'Reverser' is not defined
+    When I reverse the string ""                      # tests/features/reverse_s    When I reverse the string ""                      # tests/features/reverse_steps.py:7
+    Then the result is ""                             # tests/features/reverse_s    Then the result is ""                             # tests/features/reverse_steps.py:11
+
+1 feature (0 passed)
+1 scenario (0 passed)
+3 steps (1 failed, 2 skipped, 0 passed)
+```
+
+This is of course because caused by the lack of a definition for our String Reverser class. So we need to create that before 
+we proceed.
+
+## Create the String Reverser
+
+During setup we created a subdirectory in our project called _string_reverser_. We need to create two files in that location.
+
+First create an empty file named __init.py__
+
+```bash
+touch ~/projects/string_reverser/string_reverser/__init__.py
+```
+
+>
+> Windows Users: The _touch_ command does not exist on Windows. Use your text editor or file manager to create an empty file.
+>
+
+This file tells python that the folder contains a module.
+
+Next, we need to define the class Reverser.
+
+Create a file in the _string_reverser_ subdirectory called _string_reverser.py_
+
+Add the following content to that file;
+
+```python
+# -*- coding: utf-8 -*-
+
+class Reverser(object):
+```
+
 # Lazy Route: Just use the repo
+
+## Run again
+
+```bash
+lettuce tests
+```
 
 After checkout, from the top directory of this project, run;
 
