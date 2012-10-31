@@ -17,6 +17,10 @@ def report(message):
     if (isDebug()):
         print message
 
+@world.absorb
+def assert_equal(string1, string2):
+    assert string1 == string2, "\n'%s'\nis not equal to\n'%s'" % (string1, string2)
+
 @before.all
 def before_all():
     report("About to do all")
@@ -24,7 +28,8 @@ def before_all():
 @after.all
 def after_all(all):
     report("Have done all %s" % (all))
-
+    world.spew('assert_equals')  #remove the assert_equals from world
+    
 @before.each_feature
 def before_each_feature(feature):
     report("About to do a feature %s" % (feature))
@@ -44,7 +49,7 @@ def after_each_scenario(scenario):
 @before.each_step
 def before_each_step(step):
     report("About to do a step %s\n" % (step))
-
+    
 @after.each_step
 def after_each_step(step):
     report("\nHave done a step %s" % (step))
