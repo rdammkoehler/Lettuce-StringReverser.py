@@ -22,7 +22,7 @@ Lettuce http://lettuce.it/index.html
 
 ### Mac users
 
-You are in luck, already installed.
+You are in luck, python is already installed.
 
 ### Ubuntu Users
 
