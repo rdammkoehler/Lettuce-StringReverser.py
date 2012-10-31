@@ -620,8 +620,58 @@ that and get all of our tests passing.
 Modify the _Reverser_ class's _reverse(input)_ method so that it returns its input.
 
 ```python
+class Reverser(object):
+    def __init__(self):
+        pass
 
+    def reverse(self,input):
+    	return input
 ```
+
+## Run again
+
+```bash
+lettuce tests
+```
+
+Your output should look like this;
+
+```bash
+Feature: Reverse Words in a String                    # tests/features/reverse.feature:1
+  In order to read backwards                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed # tests/features/reverse.feature:3
+
+  Scenario: Empty String Reversal                     # tests/features/reverse.feature:5
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:8
+    When I reverse the string ""                      # tests/features/reverse_s    When I reverse the string ""                      # tests/features/reverse_steps.py:12
+    Then the result is ""                             # tests/features/reverse_s    Then the result is ""                             # tests/features/reverse_steps.py:16
+
+  Scenario: Single Character Reversal                 # tests/features/reverse.feature:10
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:8
+    When I reverse the string "A"                     # tests/features/reverse_s    When I reverse the string "A"                     # tests/features/reverse_steps.py:12
+    Then the result is "A"                            # tests/features/reverse_s    Then the result is "A"                            # tests/features/reverse_steps.py:16
+
+1 feature (1 passed)
+2 scenarios (2 passed)
+6 steps (6 passed)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
