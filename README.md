@@ -516,11 +516,54 @@ lettuce tests
 Your output should look like this;
 
 ```bash
+Feature: Reverse Words in a String                    # tests/features/reverse.feature:1
+  In order to read backwards                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed # tests/features/reverse.feature:3
 
+  Scenario: Empty String Reversal                     # tests/features/reverse.feature:5
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:9
+    When I reverse the string ""                      # tests/features/reverse_s    When I reverse the string ""                      # tests/features/reverse_steps.py:13
+    Then the result is ""                             # tests/features/reverse_s    Then the result is ""                             # tests/features/reverse_steps.py:17
+
+  Scenario: Single Character Reversal                 # tests/features/reverse.feature:10
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:9
+    When I reverse the string "A"                     # tests/features/reverse.feature:12
+    Then the result is "A"                            # tests/features/reverse.feature:13
+
+1 feature (0 passed)
+2 scenarios (1 passed)
+6 steps (2 undefined, 4 passed)
+
+You can implement step definitions for undefined steps with these snippets:
+
+# -*- coding: utf-8 -*-
+from lettuce import step
+
+@step(u'When I reverse the string "([^"]*)"')
+def when_i_reverse_the_string_group1(step, group1):
+    assert False, 'This step must be implemented'
+@step(u'Then the result is "([^"]*)"')
+def then_the_result_is_group1(step, group1):
+    assert False, 'This step must be implemented'
 ```
 
+Notice that lettuce is indicating that we are missing some steps. But, we are _not_ going to add new steps, rather
+we will modify the steps we already have defined. [This is really a short cut.]
 
+## Add Regular Expressions to Existing Steps
 
+The two steps that lettuce is asking us to add are essentially the same as the existing _When_ and _Then_ steps, but they
+include regular expression matches for the quoted text. 
+
+>
+> If you need help with Regular Expressions, try this site: http://www.regular-expressions.info/
+>
+
+Modify your steps by replacing the _step_ matcher for your _When_ and _Then_ steps. The file should look like this;
+
+```python
+
+```
 
 
 
