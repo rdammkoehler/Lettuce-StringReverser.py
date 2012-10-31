@@ -10,7 +10,39 @@ with the range of features available in lettuce.
 ## Usage
 
 You will need a valid/working Python environment with the lettuce
-test framework installed. (links to be added)
+test framework installed. 
+
+Python  http://www.python.org/
+PIP     
+Lettuce http://lettuce.it/index.html
+
+# Step by Step Construction
+
+## Get Python
+
+### Mac users
+
+You are in luck, already installed.
+
+### Ubuntu Users
+
+```bash
+sudo apt-get install python2.6
+```
+
+### Windows
+
+Visit the Python download page _http://www.python.org/download/_ and select the correct installer for your environment
+
+## Get PIP
+
+PIP is the package installer for Python. Use the installation instructions here _http://guide.python-distribute.org/installation.html#pip-installs-python-pip_ to install it.
+
+## Get Lettuce
+
+
+
+# Lazy Route: Just use the repo
 
 After checkout, from the top directory of this project, run;
 
