@@ -40,7 +40,115 @@ PIP is the package installer for Python. Use the installation instructions here 
 
 ## Get Lettuce
 
+PIP will install lettuce for you;
 
+```bash
+pip install lettuce
+```
+
+If you are so inclined you can visit the lettuce site for information on getting the source code here _http://lettuce.it/intro/install.html#intro-install_
+
+# Getting started
+
+## Create a project folder
+
+_Assuming you start from your home directory_
+
+```bash
+mkdir -p projects/string_reverser/tests/features
+mkdir -p projects/string_reverser/string_reverser
+```
+
+## Start with your feature file
+
+Create a feature file. Lettuce feature files are pretty much identical to Gherkin feature files used in Cucumber.
+
+Put the following text in your feature file
+
+```bash
+Feature: Reverse Words in a String
+  In order to read backwards
+  readers must have the words in their text reveresed
+
+  Scenario: Empty String Reversal
+    Given a String Reverser
+    When I reverse the string ""
+    Then the result is ""
+```
+
+## Run your feature
+
+Before going any farther, lets make sure that we can run the lettuce feature.
+
+From the command line, change directory to the top level project directory
+
+```bash
+cd ~/projects/string_reverser
+```
+
+Now invoke lettuce
+
+```bash
+lettuce tests
+```
+
+You should see output similar to this;
+
+```bash
+Feature: Reverse Words in a String                    # tests/features/reverse.feature:1
+  In order to read backwards                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed # tests/features/reverse.feature:3
+
+  Scenario: Empty String Reversal                     # tests/features/reverse.feature:5
+    Given a String Reverser                           # tests/features/reverse.feature:6
+    When I reverse the string ""                      # tests/features/reverse.feature:7
+    Then the result is ""                             # tests/features/reverse.feature:8
+
+1 feature (0 passed)
+1 scenario (0 passed)
+3 steps (3 undefined, 0 passed)
+
+You can implement step definitions for undefined steps with these snippets:
+
+# -*- coding: utf-8 -*-
+from lettuce import step
+
+@step(u'Given a String Reverser')
+def given_a_string_reverser(step):
+    assert False, 'This step must be implemented'
+@step(u'When I reverse the string ""')
+def when_i_reverse_the_string(step):
+    assert False, 'This step must be implemented'
+@step(u'Then the result is ""')
+def then_the_result_is(step):
+    assert False, 'This step must be implemented'
+```
+
+## Create a Steps file
+
+Copy the output from running lettuce into a file called reverser_steps.py, place this file in your _tests/features_ folder.
+
+The file should look like this;
+
+```python
+# -*- coding: utf-8 -*-
+from lettuce import step
+
+@step(u'Given a String Reverser')
+def given_a_string_reverser(step):
+    assert False, 'This step must be implemented'
+@step(u'When I reverse the string ""')
+def when_i_reverse_the_string(step):
+    assert False, 'This step must be implemented'
+@step(u'Then the result is ""')
+def then_the_result_is(step):
+    assert False, 'This step must be implemented'
+```
+
+Now run your feature again!
+
+```bash
+```
 
 # Lazy Route: Just use the repo
 
