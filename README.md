@@ -61,7 +61,15 @@ mkdir -p projects/string_reverser/string_reverser
 
 ## Start with your feature file
 
-Create a feature file. Lettuce feature files are pretty much identical to Gherkin feature files used in Cucumber.
+Create a feature file. Lettuce feature files are pretty much identical to Gherkin feature files used in Cucumber. This 
+process is very similar to Test Driving code, however we will use the Gherkin-like syntax that Lettuce uses. 
+This is a simple format in which we describe features using the keywords _Feature:_ and _Scenario:_. 
+A feature is made up of one or more scenarios. Each scenario is made up of statements in the form _Given_, _When_, _Then_.
+Note that a _Feature:_ is followed by its name and optionally a description.
+A _Scenario:_ is follwed by its name and optionally a description.
+You may have more than one _Given_, _When_, or _Then_. 
+
+Later we will discuss other techniques for specifying Scenarios. However, we will start with something simple first.
 
 Put the following text in your feature file
 
@@ -151,7 +159,7 @@ Now run your feature again!
 lettuce tests
 ```
 
-And you output should look like this;
+And you output should look approximately like this;
 
 ```bash
 Feature: Reverse Words in a String                    # tests/features/reverse.feature:1
@@ -174,7 +182,62 @@ Feature: Reverse Words in a String                    # tests/features/reverse.f
 3 steps (1 failed, 2 skipped, 0 passed)
 ```
 
-# More to come, it's bed time!
+## Fill in the steps
+
+The _@step_ annotation is used to match method definitions with the lines in the _feature_ file. The string 
+argument to _@step_ is a regular expression that should match one or more lines in the _feature_. As we saw above,
+if a _@step_ is missing, Lettuce will print out the required code for your steps file. Presently we have these steps;
+
+```python
+@step(u'Given a String Reverser')
+def given_a_string_reverser(step):
+    assert False, 'This step must be implemented'
+
+@step(u'When I reverse the string ""')
+def when_i_reverse_the_string(step):
+    assert False, 'This step must be implemented'
+
+@step(u'Then the result is ""')
+def then_the_result_is(step):
+    assert False, 'This step must be implemented'
+```
+
+Each _@step_ matches a line in our initial _feature_ file's first _scenario_
+
+```bash
+  Scenario: Empty String Reversal
+    Given a String Reverser
+    When I reverse the string ""
+    Then the result is ""
+```
+
+### Step 1: Given a String Reverser
+
+Just like using any other test first approach, we want to define our test code before we create a solution. 
+
+First we need to add to our imports to get access to the _world_ object in Lettuce. Modify your import to look like this.
+
+```python
+from lettuce import step, world
+```
+
+Lets start with our _Given_ _step_.
+
+```python
+@step(u'Given a String Reverser')
+def given_a_string_reverser(step):
+    world.reverser = Reverser()
+```
+
+This code very simply creates an instance of our String Reverser (_Reverser_) and assigns it to the _world_ object.
+Here we are leveraging the open-class capabilities of Python. In all other steps _world.reverser_ will give us reference 
+to our String Reverser.
+
+## Run again
+
+```bash
+lettuce tests
+```
 
 # Lazy Route: Just use the repo
 
