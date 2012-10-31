@@ -329,6 +329,31 @@ Feature: Reverse Words in a String                    # tests/features/reverse.f
 3 steps (1 failed, 1 skipped, 1 passed)
 ```
 
+As you can see, our _Given_ step now passes, however our other steps are still failing. 
+
+## Step 2: Fill in the other steps
+
+Lets add code to complete the other steps we have defined. 
+Leveraging the open nature of python objects, in our _When_ step, use the reverser to reverse the input ""
+
+```python
+@step(u'When I reverse the string ""')
+def when_i_reverse_the_string_group1(step):
+    world.result = world.reverser.reverse("")
+```
+
+## Run again
+
+```bash
+lettuce tests
+```
+
+Your output should look like this;
+
+```bash
+
+```
+
 # Lazy Route: Just use the repo
 
 After checkout, from the top directory of this project, run;
