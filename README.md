@@ -148,7 +148,33 @@ def then_the_result_is(step):
 Now run your feature again!
 
 ```bash
+lettuce tests
 ```
+
+And you output should look like this;
+
+```bash
+Feature: Reverse Words in a String                    # tests/features/reverse.feature:1
+  In order to read backwards                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed # tests/features/reverse.feature:3
+
+  Scenario: Empty String Reversal                     # tests/features/reverse.feature:5
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:7
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/lettuce/core.py", line 141, in __call__
+        ret = self.function(self.step, *args, **kw)
+      File "/Users/rich/projects/python/lettuce_demo/tests/features/reverse_steps.py", line 8, in given_a_string_reverser
+        assert False, 'This step must be implemented'
+    AssertionError: This step must be implemented
+    When I reverse the string ""                      # tests/features/reverse_s    When I reverse the string ""                      # tests/features/reverse_steps.py:10
+    Then the result is ""                             # tests/features/reverse_s    Then the result is ""                             # tests/features/reverse_steps.py:13
+
+1 feature (0 passed)
+1 scenario (0 passed)
+3 steps (1 failed, 2 skipped, 0 passed)
+```
+
+# More to come, it's bed time!
 
 # Lazy Route: Just use the repo
 
