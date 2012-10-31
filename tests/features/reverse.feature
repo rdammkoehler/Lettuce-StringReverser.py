@@ -31,12 +31,14 @@ Feature: Reverse Words in a String
     Given a String Reverser
     When I reverse these strings:
       | input                                                          |
+      |                                                                |
       | A                                                              |
       | Bacon                                                          |
       | Bacon is the life blood of Agile Software Development          |
       | Rats Live on no Evil Star                                      |
     Then the results are:
       | output                                                         |
+      |                                                                |
       | A                                                              |
       | Bacon                                                          |
       | Development Software Agile of blood life the is Bacon          |
@@ -49,6 +51,7 @@ Feature: Reverse Words in a String
 
   Examples:
     | a string                                              | reversed string                                       |
+    |                                                       |                                                       |
     | A                                                     | A                                                     |
     | bacon                                                 | bacon                                                 |
     | Bacon is the life blood of Agile Software Development | Development Software Agile of blood life the is Bacon |

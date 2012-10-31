@@ -21,7 +21,6 @@ lettuce tests
 You should see output like this (note, on my Mac I can't see the lines output, presume its my color scheme)
 
 ```bash
-
 Feature: Reverse Words in a String                                                                                     # tests/features/reverse.feature:1
   In order to read backwards                                                                                           # tests/features/reverse.feature:2
   readers must have the words in their text reveresed                                                                  # tests/features/reverse.feature:3
@@ -55,30 +54,33 @@ Feature: Reverse Words in a String                                              
     Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
     When I reverse these strings:                                                                                      # tests/features/reverse_steps.py:21
       | input                                                 |
+      |                                                       |
       | A                                                     |
       | Bacon                                                 |
       | Bacon is the life blood of Agile Software Development |
       | Rats Live on no Evil Star                             |
     Then the results are:                                                                                              # tests/features/reverse_steps.py:29
       | output                                                |
+      |                                                       |
       | A                                                     |
       | Bacon                                                 |
       | Development Software Agile of blood life the is Bacon |
       | Star Evil no on Live Rats                             |
 
-  Scenario Outline: Outline Example                                                                                    # tests/features/reverse.feature:45
+  Scenario Outline: Outline Example                                                                                    # tests/features/reverse.feature:47
     Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
     When I reverse the string "<a string>"                                                                             # tests/features/reverse_steps.py:13
     Then the result is "<reversed string>"                                                                             # tests/features/reverse_steps.py:17
 
   Examples:
     | a string                                              | reversed string                                       |
+    |                                                       |                                                       |
     | A                                                     | A                                                     |
     | bacon                                                 | bacon                                                 |
     | Bacon is the life blood of Agile Software Development | Development Software Agile of blood life the is Bacon |
     | Rats Live on no Evil Star                             | Star Evil no on Live Rats                             |
 
 1 feature (1 passed)
-10 scenarios (10 passed)
-30 steps (30 passed)
+11 scenarios (11 passed)
+33 steps (33 passed)
 ```
