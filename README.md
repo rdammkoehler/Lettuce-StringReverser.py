@@ -664,23 +664,235 @@ another feature to see if we can reverse a whole world.
 Add the following feature to your _reverse.feature_ file;
 
 ```gherkin
-
+  Scenario: Multicharacter Word Reversal
+    Given a String Reverser
+    When I reverse the string "Bacon"
+    Then the result is "Bacon"
 ```
 
+## Run again
 
+```bash
+lettuce tests
+```
 
+Your output should look like this;
 
+```bash
+Feature: Reverse Words in a String                    # tests/features/reverse.feature:1
+  In order to read backwards                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed # tests/features/reverse.feature:3
 
+  Scenario: Empty String Reversal                     # tests/features/reverse.feature:5
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:9
+    When I reverse the string ""                      # tests/features/reverse_s    When I reverse the string ""                      # tests/features/reverse_steps.py:13
+    Then the result is ""                             # tests/features/reverse_s    Then the result is ""                             # tests/features/reverse_steps.py:17
 
+  Scenario: Single Character Reversal                 # tests/features/reverse.feature:10
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:9
+    When I reverse the string "A"                     # tests/features/reverse_s    When I reverse the string "A"                     # tests/features/reverse_steps.py:13
+    Then the result is "A"                            # tests/features/reverse_s    Then the result is "A"                            # tests/features/reverse_steps.py:17
 
+  Scenario: Multicharacter Word Reversal              # tests/features/reverse.feature:15
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:9
+    When I reverse the string "Bacon"                 # tests/features/reverse_s    When I reverse the string "Bacon"                 # tests/features/reverse_steps.py:13
+    Then the result is "Bacon"                        # tests/features/reverse_s    Then the result is "Bacon"                        # tests/features/reverse_steps.py:17
 
+1 feature (1 passed)
+3 scenarios (3 passed)
+9 steps (9 passed)
+```
 
+Great! That already works. Lets add a _scenario_ for a multi-word string.
 
+Modify your _reverse.feature_ file by adding this scenario;
 
+```gherkin
+  Scenario: Multiword String Reversal
+    Given a String Reverser
+    When I reverse the string "Bacon is the life blood of Agile Software Development"
+    Then the result is "Development Software Agile of blood life the is Bacon"
+```
 
+## Run again
 
+```bash
+lettuce tests
+```
 
+Your output should look like this;
 
+```bash
+Feature: Reverse Words in a String                                                    # tests/features/reverse.feature:1
+  In order to read backwards                                                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed                                 # tests/features/reverse.feature:3
+
+  Scenario: Empty String Reversal                                                     # tests/features/reverse.feature:5
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string ""                                                    When I reverse the string ""                                                      # tests/features/reverse_steps.py:13
+    Then the result is ""                                                           Then the result is ""                                                             # tests/features/reverse_steps.py:17
+
+  Scenario: Single Character Reversal                                                 # tests/features/reverse.feature:10
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string "A"                                                   When I reverse the string "A"                                                     # tests/features/reverse_steps.py:13
+    Then the result is "A"                                                          Then the result is "A"                                                            # tests/features/reverse_steps.py:17
+
+  Scenario: Multicharacter Word Reversal                                              # tests/features/reverse.feature:15
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string "Bacon"                                               When I reverse the string "Bacon"                                                 # tests/features/reverse_steps.py:13
+    Then the result is "Bacon"                                                      Then the result is "Bacon"                                                        # tests/features/reverse_steps.py:17
+
+  Scenario: Multiword String Reversal                                                 # tests/features/reverse.feature:20
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string "Bacon is the life blood of Agile Software Develop    When I reverse the string "Bacon is the life blood of Agile Software Development" # tests/features/reverse_steps.py:13
+    Then the result is "Development Software Agile of blood life the is Bacon"      Then the result is "Development Software Agile of blood life the is Bacon"        # tests/features/reverse_steps.py:17
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/lettuce/core.py", line 141, in __call__
+        ret = self.function(self.step, *args, **kw)
+      File "/Users/rich/projects/python/lettuce_demo/tests/features/reverse_steps.py", line 18, in then_the_result_is_group1
+        assert world.result == group1, 'result does not match expectation'
+    AssertionError: result does not match expectation
+
+1 feature (0 passed)
+4 scenarios (3 passed)
+12 steps (1 failed, 11 passed)
+```
+
+## Fixing the implementation
+
+Our test failed. We need to actually reverse the words in the string in order to get this to pass. Fortunately this is a
+very easy thing to do (in Python anyway).
+
+Modify your _string_reverser.py_ file to look like this;
+
+```python
+# -*- coding: utf-8 -*-
+
+import string
+
+class Reverser(object):
+    def __init__(self):
+        pass
+
+    def reverse(self,input):
+        words = string.split(input)
+        words.reverse()
+        return string.join(words, " ")
+```
+
+## Run again
+
+```bash
+lettuce tests
+```
+
+Your output should look like this;
+
+```bash
+Feature: Reverse Words in a String                                                    # tests/features/reverse.feature:1
+  In order to read backwards                                                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed                                 # tests/features/reverse.feature:3
+
+  Scenario: Empty String Reversal                                                     # tests/features/reverse.feature:5
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string ""                                                    When I reverse the string ""                                                      # tests/features/reverse_steps.py:13
+    Then the result is ""                                                           Then the result is ""                                                             # tests/features/reverse_steps.py:17
+
+  Scenario: Single Character Reversal                                                 # tests/features/reverse.feature:10
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string "A"                                                   When I reverse the string "A"                                                     # tests/features/reverse_steps.py:13
+    Then the result is "A"                                                          Then the result is "A"                                                            # tests/features/reverse_steps.py:17
+
+  Scenario: Multicharacter Word Reversal                                              # tests/features/reverse.feature:15
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string "Bacon"                                               When I reverse the string "Bacon"                                                 # tests/features/reverse_steps.py:13
+    Then the result is "Bacon"                                                      Then the result is "Bacon"                                                        # tests/features/reverse_steps.py:17
+
+  Scenario: Multiword String Reversal                                                 # tests/features/reverse.feature:20
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string "Bacon is the life blood of Agile Software Develop    When I reverse the string "Bacon is the life blood of Agile Software Development" # tests/features/reverse_steps.py:13
+    Then the result is "Development Software Agile of blood life the is Bacon"      Then the result is "Development Software Agile of blood life the is Bacon"        # tests/features/reverse_steps.py:17
+
+1 feature (1 passed)
+4 scenarios (4 passed)
+12 steps (12 passed)
+```
+
+Awesome! It passes. 
+
+## Sanity Checking
+
+Lets add another _scenario_ to our _feature_ to confirm that things are really working well.
+
+Add the following _scenario_ to the _reverse.feature_ file;
+
+```gherkin
+  Scenario: Palindrome String Reversal
+    Given a String Reverser
+    When I reverse the string "Rats Live on no Evil Star"
+    Then the result is "Star Evil no on Live Rats"
+```
+
+## Run again
+
+```bash
+lettuce tests
+```
+
+Your output should look like this;
+
+```bash
+Feature: Reverse Words in a String                                                    # tests/features/reverse.feature:1
+  In order to read backwards                                                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed                                 # tests/features/reverse.feature:3
+
+  Scenario: Empty String Reversal                                                     # tests/features/reverse.feature:5
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string ""                                                    When I reverse the string ""                                                      # tests/features/reverse_steps.py:13
+    Then the result is ""                                                           Then the result is ""                                                             # tests/features/reverse_steps.py:17
+
+  Scenario: Single Character Reversal                                                 # tests/features/reverse.feature:10
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string "A"                                                   When I reverse the string "A"                                                     # tests/features/reverse_steps.py:13
+    Then the result is "A"                                                          Then the result is "A"                                                            # tests/features/reverse_steps.py:17
+
+  Scenario: Multicharacter Word Reversal                                              # tests/features/reverse.feature:15
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string "Bacon"                                               When I reverse the string "Bacon"                                                 # tests/features/reverse_steps.py:13
+    Then the result is "Bacon"                                                      Then the result is "Bacon"                                                        # tests/features/reverse_steps.py:17
+
+  Scenario: Multiword String Reversal                                                 # tests/features/reverse.feature:20
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string "Bacon is the life blood of Agile Software Develop    When I reverse the string "Bacon is the life blood of Agile Software Development" # tests/features/reverse_steps.py:13
+    Then the result is "Development Software Agile of blood life the is Bacon"      Then the result is "Development Software Agile of blood life the is Bacon"        # tests/features/reverse_steps.py:17
+
+  Scenario: Palindrome String Reversal                                                # tests/features/reverse.feature:25
+    Given a String Reverser                                                         Given a String Reverser                                                           # tests/features/reverse_steps.py:9
+    When I reverse the string "Rats Live on no Evil Star"                           When I reverse the string "Rats Live on no Evil Star"                             # tests/features/reverse_steps.py:13
+    Then the result is "Star Evil no on Live Rats"                                  Then the result is "Star Evil no on Live Rats"                                    # tests/features/reverse_steps.py:17
+
+1 feature (1 passed)
+5 scenarios (5 passed)
+15 steps (15 passed)
+```
+
+Still more awesome! This one passes too.
+
+## Exploring other _scenario_ types
+
+### Scenarios with tables in-line
+
+### Scenario Outlines
+
+## Terrain
+
+### Event Hooks
+
+### World methods
+
+#### absorb
+
+#### spew
 
 
 ===============================
