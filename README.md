@@ -431,6 +431,60 @@ def then_the_result_is(step):
     assert world.result == "", 'result does not match expectation' 
 ```
 
+## Run again
+
+```bash
+lettuce tests
+```
+
+Your output should look like this;
+
+```bash
+Feature: Reverse Words in a String                    # tests/features/reverse.feature:1
+  In order to read backwards                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed # tests/features/reverse.feature:3
+
+  Scenario: Empty String Reversal                     # tests/features/reverse.feature:5
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:9
+    When I reverse the string ""                      # tests/features/reverse_s    When I reverse the string ""                      # tests/features/reverse_steps.py:13
+    Then the result is ""                             # tests/features/reverse_s    Then the result is ""                             # tests/features/reverse_steps.py:17
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/lettuce/core.py", line 141, in __call__
+        ret = self.function(self.step, *args, **kw)
+      File "/Users/rich/projects/python/lettuce_demo/tests/features/reverse_steps.py", line 18, in then_the_result_is_group1
+        assert world.result == "", 'result does not match expectation'
+    AssertionError: result does not match expectation
+
+1 feature (0 passed)
+1 scenario (0 passed)
+3 steps (1 failed, 2 passed)
+```
+
+This test executes but fails because we need to complete the _Reverser_ code. 
+
+Modify your _Reverser_ to look like this;
+
+```python
+class Reverser(object):
+    def __init__(self):
+        pass
+
+    def reverse(self,input):
+    	return ""
+```
+
+## Run again
+
+```bash
+lettuce tests
+```
+
+Your output should look like this;
+
+```bash
+
+```
+
 # Lazy Route: Just use the repo
 
 After checkout, from the top directory of this project, run;
