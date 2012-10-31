@@ -656,7 +656,16 @@ Feature: Reverse Words in a String                    # tests/features/reverse.f
 6 steps (6 passed)
 ```
 
+## Adding more _scenarios_
 
+So far our String Reverser class is coming along well. It can reverse empty strings and single characters. Let's add
+another feature to see if we can reverse a whole world.
+
+Add the following feature to your _reverse.feature_ file;
+
+```gherkin
+
+```
 
 
 
