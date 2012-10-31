@@ -882,18 +882,357 @@ Still more awesome! This one passes too.
 
 ### Scenarios with tables in-line
 
+```gherkin
+  Scenario: Consolidated Table Example
+    Given a String Reverser
+    When I reverse these strings:
+      | input                                                          |
+      |                                                                |
+      | A                                                              |
+      | Bacon                                                          |
+      | Bacon is the life blood of Agile Software Development          |
+      | Rats Live on no Evil Star                                      |
+    Then the results are:
+      | output                                                         |
+      |                                                                |
+      | A                                                              |
+      | Bacon                                                          |
+      | Development Software Agile of blood life the is Bacon          |
+      | Star Evil no on Live Rats                                      |
+```
+
+>
+> Note: You don't have to line up the vertical bars, I just like the way it looks
+>
+
+```python
+@step('I reverse these strings:')
+def when_i_reverse_these_strings(step):
+    outputs = list()
+    for input in step.hashes:
+        outputs.append(world.reverser.reverse(input['input']))
+    outputs.reverse()             # must reverse the list so it will match order in the Then step
+    world.outputs = outputs
+
+@step('the results are:')
+def then_the_results_are(step):
+    for expected in step.hashes:
+        assert world.outputs.pop() == expected['output'], 'result does not match expectation'
+```
+
 ### Scenario Outlines
+
+```gherkin
+  Scenario Outline: Outline Example
+    Given a String Reverser
+    When I reverse the string "<a string>"
+    Then the result is "<reversed string>"
+
+  Examples:
+    | a string                                              | reversed string                                       |
+    |                                                       |                                                       |
+    | A                                                     | A                                                     |
+    | bacon                                                 | bacon                                                 |
+    | Bacon is the life blood of Agile Software Development | Development Software Agile of blood life the is Bacon |
+    | Rats Live on no Evil Star                             | Star Evil no on Live Rats                             |
+```
+
+No new steps are needed for our _Scenario_Outline_. Very intentionally, each of the _steps_ in the _scenario_outline_ are identical to the _steps_ defined previously for other _scenarios_.
 
 ## Terrain
 
+Lettuce supports Event Hooks and Shared Methods through what it calls _terrain_. Lettuce will load and execute the code 
+found in the _terrain.py_ file in your _features_ subdirectory whenever you run the _lettuce_ command.
+
 ### Event Hooks
+
+Lettuce provides event hooks that you can use for setup/teardown activities, logging, or whatever is appropriate to your 
+tests. I'd recommend you carefully consider their usage. 
+
+For demonstration purposes, create this _terrain.py_ file in your _features_ folder.
+
+```python
+# -*- coding: utf-8 -*-
+
+import os
+from lettuce import *
+
+def isDebug():
+    rval = False
+    try:
+        if (os.environ['DEBUG']):
+            rval = True
+    except KeyError:
+        pass
+    return rval
+
+def report(message):
+    if (isDebug()):
+        print message
+
+@before.all
+def before_all():
+    report("About to do all")
+    
+@after.all
+def after_all(all):
+    report("Have done all %s" % (all))
+    
+@before.each_feature
+def before_each_feature(feature):
+    report("About to do a feature %s" % (feature))
+
+@after.each_feature
+def after_each_feature(feature):
+    report("Have done a feature %s" % (feature))
+
+@before.each_scenario
+def before_each_scenario(scenario):
+    report("About to do a scenario %s" % (scenario))
+
+@after.each_scenario
+def after_each_scenario(scenario):
+    report("Have done a scenario %s" % (scenario))
+
+@before.each_step
+def before_each_step(step):
+    report("About to do a step %s\n" % (step))
+    
+@after.each_step
+def after_each_step(step):
+    report("\nHave done a step %s" % (step))
+```
+
+If you go back an run the tests with the environment variable _DEBUG_ defined you will see output surrounding the more
+familiar output.
+
+>
+> Note: I didn't test the value of _DEBUG_. I simply check for its existence. 
+>
+
+#### Run, special
+
+```bash
+DEBUG=Yes lettuce tests
+``` 
+
+Your output should look like this;
+
+```bash
+About to do all
+
+Feature: Reverse Words in a String                                                                                     # tests/features/reverse.feature:1
+  In order to read backwards                                                                                           # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed                                                                  # tests/features/reverse.feature:3
+About to do a feature <Feature: "Reverse Words in a String">
+
+  Scenario: Empty String Reversal                                                                                      # tests/features/reverse.feature:5
+About to do a scenario <Scenario: "Empty String Reversal">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+About to do a step <Step: "Given a String Reverser">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+
+Have done a step <Step: "Given a String Reverser">
+    When I reverse the string ""                                                                                       # tests/features/reverse_steps.py:13
+About to do a step <Step: "When I reverse the string """>
+    When I reverse the string ""                                                                                       # tests/features/reverse_steps.py:13
+
+Have done a step <Step: "When I reverse the string """>
+    Then the result is ""                                                                                              # tests/features/reverse_steps.py:17
+About to do a step <Step: "Then the result is """>
+    Then the result is ""                                                                                              # tests/features/reverse_steps.py:17
+
+Have done a step <Step: "Then the result is """>
+Have done a scenario <Scenario: "Empty String Reversal">
+
+  Scenario: Single Character Reversal                                                                                  # tests/features/reverse.feature:10
+About to do a scenario <Scenario: "Single Character Reversal">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+About to do a step <Step: "Given a String Reverser">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+
+Have done a step <Step: "Given a String Reverser">
+    When I reverse the string "A"                                                                                      # tests/features/reverse_steps.py:13
+About to do a step <Step: "When I reverse the string "A"">
+    When I reverse the string "A"                                                                                      # tests/features/reverse_steps.py:13
+
+Have done a step <Step: "When I reverse the string "A"">
+    Then the result is "A"                                                                                             # tests/features/reverse_steps.py:17
+About to do a step <Step: "Then the result is "A"">
+    Then the result is "A"                                                                                             # tests/features/reverse_steps.py:17
+
+Have done a step <Step: "Then the result is "A"">
+Have done a scenario <Scenario: "Single Character Reversal">
+
+  Scenario: Multicharacter Word Reversal                                                                               # tests/features/reverse.feature:15
+About to do a scenario <Scenario: "Multicharacter Word Reversal">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+About to do a step <Step: "Given a String Reverser">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+
+Have done a step <Step: "Given a String Reverser">
+    When I reverse the string "Bacon"                                                                                  # tests/features/reverse_steps.py:13
+About to do a step <Step: "When I reverse the string "Bacon"">
+    When I reverse the string "Bacon"                                                                                  # tests/features/reverse_steps.py:13
+
+Have done a step <Step: "When I reverse the string "Bacon"">
+    Then the result is "Bacon"                                                                                         # tests/features/reverse_steps.py:17
+About to do a step <Step: "Then the result is "Bacon"">
+    Then the result is "Bacon"                                                                                         # tests/features/reverse_steps.py:17
+
+Have done a step <Step: "Then the result is "Bacon"">
+Have done a scenario <Scenario: "Multicharacter Word Reversal">
+
+  Scenario: Multiword String Reversal                                                                                  # tests/features/reverse.feature:20
+About to do a scenario <Scenario: "Multiword String Reversal">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+About to do a step <Step: "Given a String Reverser">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+
+Have done a step <Step: "Given a String Reverser">
+    When I reverse the string "Bacon is the life blood of Agile Software Development"                                  # tests/features/reverse_steps.py:13
+About to do a step <Step: "When I reverse the string "Bacon is the life blood of Agile Software Development"">
+    When I reverse the string "Bacon is the life blood of Agile Software Development"                                  # tests/features/reverse_steps.py:13
+
+Have done a step <Step: "When I reverse the string "Bacon is the life blood of Agile Software Development"">
+    Then the result is "Development Software Agile of blood life the is Bacon"                                         # tests/features/reverse_steps.py:17
+About to do a step <Step: "Then the result is "Development Software Agile of blood life the is Bacon"">
+    Then the result is "Development Software Agile of blood life the is Bacon"                                         # tests/features/reverse_steps.py:17
+
+Have done a step <Step: "Then the result is "Development Software Agile of blood life the is Bacon"">
+Have done a scenario <Scenario: "Multiword String Reversal">
+
+  Scenario: Palindrome String Reversal                                                                                 # tests/features/reverse.feature:25
+About to do a scenario <Scenario: "Palindrome String Reversal">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+About to do a step <Step: "Given a String Reverser">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+
+Have done a step <Step: "Given a String Reverser">
+    When I reverse the string "Rats Live on no Evil Star"                                                              # tests/features/reverse_steps.py:13
+About to do a step <Step: "When I reverse the string "Rats Live on no Evil Star"">
+    When I reverse the string "Rats Live on no Evil Star"                                                              # tests/features/reverse_steps.py:13
+
+Have done a step <Step: "When I reverse the string "Rats Live on no Evil Star"">
+    Then the result is "Star Evil no on Live Rats"                                                                     # tests/features/reverse_steps.py:17
+About to do a step <Step: "Then the result is "Star Evil no on Live Rats"">
+    Then the result is "Star Evil no on Live Rats"                                                                     # tests/features/reverse_steps.py:17
+
+Have done a step <Step: "Then the result is "Star Evil no on Live Rats"">
+Have done a scenario <Scenario: "Palindrome String Reversal">
+
+  Scenario: Consolidated Table Example                                                                                 # tests/features/reverse.feature:30
+About to do a scenario <Scenario: "Consolidated Table Example">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+About to do a step <Step: "Given a String Reverser">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+
+Have done a step <Step: "Given a String Reverser">
+    When I reverse these strings:                                                                                      # tests/features/reverse_steps.py:21
+      | input                                                 |
+    When I reverse these strings:                                                                                      # tests/features/reverse_steps.py:21
+      | input                                                 |
+      |                                                       |
+      | A                                                     |
+      | Bacon                                                 |
+      | Bacon is the life blood of Agile Software Development |
+      | Rats Live on no Evil Star                             |
+
+Have done a step <Step: "When I reverse these strings:">
+    Then the results are:                                                                                              # tests/features/reverse_steps.py:29
+      | output                                                |
+    Then the results are:                                                                                              # tests/features/reverse_steps.py:29
+      | output                                                |
+      |                                                       |
+      | A                                                     |
+      | Bacon                                                 |
+      | Development Software Agile of blood life the is Bacon |
+      | Star Evil no on Live Rats                             |
+
+Have done a step <Step: "Then the results are:">
+Have done a scenario <Scenario: "Consolidated Table Example">
+
+  Scenario Outline: Outline Example                                                                                    # tests/features/reverse.feature:47
+About to do a scenario <Scenario: "Outline Example">
+    Given a String Reverser                                                                                            # tests/features/reverse_steps.py:9
+About to do a step <Step: "Given a String Reverser">
+
+
+Have done a step <Step: "Given a String Reverser">
+    When I reverse the string "<a string>"                                                                             # tests/features/reverse_steps.py:13
+About to do a step <Step: "When I reverse the string """>
+
+
+Have done a step <Step: "When I reverse the string """>
+    Then the result is "<reversed string>"                                                                             # tests/features/reverse_steps.py:17
+About to do a step <Step: "Then the result is """>
+
+
+Have done a step <Step: "Then the result is """>
+
+  Examples:
+    | a string                                              | reversed string                                       |
+    |                                                       |                                                       |
+    | A                                                     | A                                                     |
+    | bacon                                                 | bacon                                                 |
+    | Bacon is the life blood of Agile Software Development | Development Software Agile of blood life the is Bacon |
+    | Rats Live on no Evil Star                             | Star Evil no on Live Rats                             |
+Have done a scenario <Scenario: "Outline Example">
+Have done a feature <Feature: "Reverse Words in a String">
+
+1 feature (1 passed)
+11 scenarios (11 passed)
+33 steps (33 passed)
+Have done all <lettuce.core.TotalResult object at 0x1051fe950>
+```
 
 ### World methods
 
 #### absorb
 
+Lettuce also supports the idea of sharing global methods. The admit this is not _The_Python_Way_ [See|http://lettuce.it/reference/terrain.html#world-absorb]
+
+I've put a contrived method in place just to show how this works. Modify your _terrain.py_ file by adding this code;
+
+```python
+@world.absorb
+def assert_equal(string1, string2):
+    assert string1 == string2, "\n'%s'\nis not equal to\n'%s'" % (string1, string2)
+```
+
+Then modify your _reverse_steps.py_ file by replacing each assertion with our new method
+
+Replace
+```python
+assert world.result == group1, 'result does not match expectation'
+```
+
+With this;
+```python
+world.assert_equal(world.result, group1)
+```
+
+You can also replace
+```python
+assert world.outputs.pop() == expected['output'], 'result does not match expectation'
+```
+
+With this;
+```python
+world.assert_equal(world.outputs.pop(), expected['output'])
+```
+
+Now run again. You won't see any actual differences in the output. But, we now have a consolidated assertion method in 
+which we can customize the output or do some other 'shared' thing. This can be useful for any number of reasons. I will
+leave that speculation as an exercise for the reader.
+
 #### spew
 
+In order to remove a method from the _world_ object, use the _spew_ method. 
+
+>
+> Still working on a demo of this that works.
+>
 
 ===============================
 
