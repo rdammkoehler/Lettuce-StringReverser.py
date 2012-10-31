@@ -331,7 +331,7 @@ Feature: Reverse Words in a String                    # tests/features/reverse.f
 
 As you can see, our _Given_ step now passes, however our other steps are still failing. 
 
-## Step 2: Fill in the other steps
+## Step 2: Fill in the _When_ step
 
 Lets add code to complete the other steps we have defined. 
 Leveraging the open nature of python objects, in our _When_ step, use the reverser to reverse the input ""
@@ -416,6 +416,19 @@ Feature: Reverse Words in a String                    # tests/features/reverse.f
 1 feature (0 passed)
 1 scenario (0 passed)
 3 steps (1 failed, 2 passed)
+```
+
+## Step 3: Fill in the _Then_ step
+
+Our test is failing because we have not finished the definition of the _Then_ step. Here we will simply compare the
+result of our _Then_ step, stored in _world.result_ with our expected output, ""
+
+Modify your third step to look like this;
+
+```python
+@step(u'Then the result is ""')
+def then_the_result_is(step):
+    assert world.result == "", 'result does not match expectation' 
 ```
 
 # Lazy Route: Just use the repo
