@@ -351,6 +351,53 @@ lettuce tests
 Your output should look like this;
 
 ```bash
+Feature: Reverse Words in a String                    # tests/features/reverse.feature:1
+  In order to read backwards                          # tests/features/reverse.feature:2
+  readers must have the words in their text reveresed # tests/features/reverse.feature:3
+
+  Scenario: Empty String Reversal                     # tests/features/reverse.feature:5
+    Given a String Reverser                           # tests/features/reverse_s    Given a String Reverser                           # tests/features/reverse_steps.py:8
+    When I reverse the string ""                      # tests/features/reverse_s    When I reverse the string ""                      # tests/features/reverse_steps.py:12
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/lettuce/core.py", line 141, in __call__
+        ret = self.function(self.step, *args, **kw)
+      File "/Users/rich/projects/python/lettuce_demo/tests/features/reverse_steps.py", line 13, in when_i_reverse_the_string_group1
+        world.result = world.reverser.reverse("")
+    AttributeError: 'Reverser' object has no attribute 'reverse'
+    Then the result is ""                             # tests/features/reverse_s    Then the result is ""                             # tests/features/reverse_steps.py:16
+
+1 feature (0 passed)
+1 scenario (0 passed)
+3 steps (1 failed, 1 skipped, 1 passed)
+```
+
+The test fails of course because we have not defined the _reverse(input)_ method. 
+
+## Adding to the String Reverser
+
+Lets add the _reverse(input)_ method to our _Reverser_ class.
+Modify the code in _string_reverser.py_ to look like this;
+
+```python
+# -*- coding: utf-8 -*-
+
+class Reverser(object):
+    def __init__(self):
+        pass
+
+    def reverse(self,input):
+    	pass
+```
+
+## Run again
+
+```bash
+lettuce tests
+```
+
+Your output should look like this;
+
+```bash
 
 ```
 
