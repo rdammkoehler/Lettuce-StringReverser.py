@@ -1267,6 +1267,74 @@ In order to remove a method from the _world_ object, use the _spew_ method.
 ---------------------------------------
 ---------------------------------------
 
+# Variations on Feature Writing
+
+## Avoid Magic Numbers
+
+From the perspective of enhancing understanding we don't really want to
+write tests that contain magic numbers unless they really have meaning.
+As a contrived example I've added a _feature_ for a Flying Tractor in
+which the _scenario_ is defined using words like 'minimum forward speed' and 'minimum safe altitude'. 
+
+This example is of course totally contrived. 
+
+```gherkin
+Feature: Flying Tractor Altitude Management
+         As a Tractor Operator
+         I want Altitude Management
+         So I can operate my Flying Tractor safely
+
+         Scenario: Velocity Affects Altitude
+                   Given a Flying Tractor
+                   When I operate at the minimum forward speed
+                   Then the Flying Tractor will rise to the minimum safe altitude
+```
+
+The steps file.
+
+```python
+# -*- coding: utf-8 -*-
+
+import sys
+from lettuce import step, world
+from flying.equipment import FlyingTractor
+
+@step(u'Given a Flying Tractor')
+def given_a_flying_tractor(step):
+    world.flying_tractor = FlyingTractor()
+
+@step(u'When I operate at the minimum forward speed')
+def when_i_operate_at_the_minimum_forward_speed(step):
+    world.flying_tractor.setSpeed(FlyingTractor.MIN_SAFE_SPEED)
+
+@step(u'Then the Flying Tractor will rise to the minimum safe altitude')
+def then_the_flying_tractor_will_rise_to_the_minimum_safe_distance(step):
+    assert world.flying_tractor.getAltitude() == FlyingTractor.MIN_SAFE_ALTITUDE, "your tractor is operating dangerously"
+```
+
+The code under test
+
+```python
+# -*- encoding utf-8 -*-
+
+class FlyingTractor(object):
+
+    MIN_SAFE_SPEED = 5
+    MIN_SAFE_ALTITUDE = 6
+
+    def __init__(self):
+        pass
+
+    def setSpeed(self,speed):
+        pass
+
+    def getAltitude(self):
+        return self.MIN_SAFE_ALTITUDE
+```
+
+---------------------------------------
+---------------------------------------
+
 # Lazy Route: Just use the repo
 
 After checkout, from the top directory of this project, run;
