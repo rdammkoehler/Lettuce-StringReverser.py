@@ -548,7 +548,7 @@ def then_the_result_is_group1(step, group1):
 ```
 
 Notice that lettuce is indicating that we are missing some steps. But, we are _not_ going to add new steps, rather
-we will modify the steps we already have defined. [This is really a short cut.]
+we will modify the steps we already have defined. 
 
 ## Add Regular Expressions to Existing Steps
 
@@ -882,6 +882,14 @@ Still more awesome! This one passes too.
 
 ### Scenarios with tables in-line
 
+Lettuce supports using inline tables to help you minimize the amount of _feature_ definition required for complicated 
+test cases. The following example shows placing a table in the _When_ and again the _Then_ to pass lists of arguments
+into the _step_. 
+
+Using this approach we can reproduce all of our test cases in one _scenario_.
+
+Add the folowing _scenario_ to the _feature_ file.
+
 ```gherkin
   Scenario: Consolidated Table Example
     Given a String Reverser
@@ -905,6 +913,11 @@ Still more awesome! This one passes too.
 > Note: You don't have to line up the vertical bars, I just like the way it looks
 >
 
+You may run the lettuce command now if you like, but it will fail because there are no _steps_ that can handle
+these tables. 
+
+Add these two steps to your _reverse_steps.py_ file.
+
 ```python
 @step('I reverse these strings:')
 def when_i_reverse_these_strings(step):
@@ -920,7 +933,23 @@ def then_the_results_are(step):
         assert world.outputs.pop() == expected['output'], 'result does not match expectation'
 ```
 
+Because we passed these table arguments lettuce put the table in _world.hashes_. This is done automatically
+by lettuce. _world.hashes_ is a _list_ of _dictionary_ objects. So you can see in the _steps_ that we iterate
+accross that list using the Python _for_ loop and access the dictionary items by the column name (input['input']).
+
+Of course you can have multiple columns of data as necessary. The first line of the table will become the _keys_ 
+in the _dictionary_ object; each colum is the _key_. Each row becomes an entry in the _list_, in the order defined
+in the _scenario_.
+
 ### Scenario Outlines
+
+_Scenario_Outlines_ are another mechanism for consolidating our _scenarios_. They use a simple replacement mechanism
+and a table in order to run your _steps_. The outline contains masks that match the column headings in the associated
+table. In our example below, <a string> matches the first column, who's header is _a_string_.
+
+As the table is read the _Scenario_Outline_ is populated by each row in the table and then executed. 
+
+Add the following _Scenario_Outline_ to your _features_ file.
 
 ```gherkin
   Scenario Outline: Outline Example
@@ -937,7 +966,8 @@ def then_the_results_are(step):
     | Rats Live on no Evil Star                             | Star Evil no on Live Rats                             |
 ```
 
-No new steps are needed for our _Scenario_Outline_. Very intentionally, each of the _steps_ in the _scenario_outline_ are identical to the _steps_ defined previously for other _scenarios_.
+No new steps are needed for our _Scenario_Outline_. Very intentionally, each of the _steps_ in the _scenario_outline_ 
+are identical to the _steps_ defined previously for other _scenarios_.
 
 ## Terrain
 
@@ -1010,7 +1040,7 @@ familiar output.
 > Note: I didn't test the value of _DEBUG_. I simply check for its existence. 
 >
 
-#### Run, special
+#### Run (special)
 
 ```bash
 DEBUG=Yes lettuce tests
@@ -1234,7 +1264,8 @@ In order to remove a method from the _world_ object, use the _spew_ method.
 > Still working on a demo of this that works.
 >
 
-===============================
+---------------------------------------
+---------------------------------------
 
 # Lazy Route: Just use the repo
 
