@@ -84,7 +84,7 @@ Feature: Reverse Words in a String
     Then the result is ""
 ```
 
-## Run your feature
+### Run your feature
 
 Before going any farther, lets make sure that we can run the lettuce feature.
 
@@ -153,7 +153,7 @@ def then_the_result_is(step):
     assert False, 'This step must be implemented'
 ```
 
-Now run your feature again!
+### Run again
 
 ```bash
 lettuce tests
@@ -233,7 +233,7 @@ This code very simply creates an instance of our String Reverser (_Reverser_) an
 Here we are leveraging the open-class capabilities of Python. In all other steps _world.reverser_ will give us reference 
 to our String Reverser.
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -300,7 +300,7 @@ Return to your steps file and add an import for this new module after the import
 from string_reverser.string_reverser import Reverser 
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -342,7 +342,7 @@ def when_i_reverse_the_string_group1(step):
     world.result = world.reverser.reverse("")
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -389,7 +389,7 @@ class Reverser(object):
     	pass
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -431,7 +431,7 @@ def then_the_result_is(step):
     assert world.result == "", 'result does not match expectation' 
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -473,7 +473,7 @@ class Reverser(object):
     	return ""
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -507,7 +507,7 @@ Go back to your _reverse.feature_ file and add another _scenario_ to the file;
     Then the result is "A"
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -578,7 +578,7 @@ def then_the_result_is_group1(step, group1):
     assert world.result == group1, 'result does not match expectation'
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -628,7 +628,7 @@ class Reverser(object):
     	return input
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -670,7 +670,7 @@ Add the following feature to your _reverse.feature_ file;
     Then the result is "Bacon"
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -714,7 +714,7 @@ Modify your _reverse.feature_ file by adding this scenario;
     Then the result is "Development Software Agile of blood life the is Bacon"
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -780,7 +780,7 @@ class Reverser(object):
         return string.join(words, " ")
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -833,7 +833,7 @@ Add the following _scenario_ to the _reverse.feature_ file;
     Then the result is "Star Evil no on Live Rats"
 ```
 
-## Run again
+### Run again
 
 ```bash
 lettuce tests
@@ -1040,7 +1040,7 @@ familiar output.
 > Note: I didn't test the value of _DEBUG_. I simply check for its existence. 
 >
 
-#### Run (special)
+### Run (special)
 
 ```bash
 DEBUG=Yes lettuce tests
