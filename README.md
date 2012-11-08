@@ -1410,3 +1410,71 @@ Feature: Reverse Words in a String                                              
 33 steps (33 passed)
 ```
  
+# Setting Up Jenkins-CI to Run Lettuce
+
+I'm a huge fan of Jenkins for CI. I thought it would be helpful to show how I setup Jenkins to run my new Lettuce tests. 
+
+## Setup/Configuration
+
+### Install Jenkins-CI
+First things first, we need Jenkins. Please visit the Jenkins website to download Jenkins and learn how to start it. 
+
+Jenkins-CI http://jenkins-ci.org/
+>
+> For reference I'm using Tomcat 7 to run Jenkins as a war file, but it can be run standalone.
+>
+
+### Add plugins to Jenkins CI
+
+Visit the manage Jenkins tab and add the following plugins
+
+Jenkins GIT plugin   https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin
+xUnit plugin	     http://wiki.jenkins-ci.org/display/JENKINS/xUnit+Plugin
+
+### Create a new Job in Jenkins
+
+1. Click on 'New Job'
+1. Name the job 'My Lettuce Project'
+1. Select 'Build a free-style software project'
+1. Click 'OK'
+
+### Configure you build job
+
+1. Under Source Code Management, select 'Git'
+1.1. Enter the repository url file:///Users/rich/projects/python/lettuce_demo
+> Note: That's the file location on my machine, substitute the correct path to your project
+1.1. Leave the Branch Specifier set to * *
+> You might change this to a branch name if you don't want to build from master
+1. Under Build Triggers select 'Poll SCM' and enter the mask _*/5_*_*_*_*_. This sets up a build every 5 minutes based on changes to the repo (meaning if you committed code in the past 5 minutes it will build, if not, nothing happens)
+1. In the 'Build' section, select 'Add build Step' and pick 'Execute Shell' from that list.
+1.1. In the 'Command' text area enter the following command;
+```bash
+lettuce --with-xunit --xunit-file=lettucetests.xml tests
+```
+1. Under 'Post Build Actions' Add 'Publish xUnit test results report'
+1.1. Select 'Add' and pick 'Junit' from the dropdown.
+1.1. In the 'Junit pattern' text box enter _lettucetests.xml_ this is the same name we used as the argumnt for --xunit-file above (it is also the default value, as long as they match you will be OK)
+1. Hit 'Save'
+
+### Test the execution of you job
+
+Go back to your project directory and type this;
+
+```bash
+echo " " >> tests/features/flying_tractor.feature
+```
+
+Then commit this to your git-repo with;
+
+```bash
+git commit -a -m 'trigger build'
+```
+
+### Wait for Jenkins to Run
+
+In five minutes or less Jenkins should run your job. You will see a Test report (with a graph) for your lettuce tests. 
+
+>
+> For the impatient, you can just click on the 'Build Now' link of your job
+>
+
