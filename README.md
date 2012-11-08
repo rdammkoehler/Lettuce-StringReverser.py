@@ -1441,19 +1441,19 @@ xUnit plugin	     http://wiki.jenkins-ci.org/display/JENKINS/xUnit+Plugin
 ### Configure you build job
 
 1. Under Source Code Management, select 'Git'
-   1.1. Enter the repository url file:///Users/rich/projects/python/lettuce_demo
-   1.1.1. Note: That's the file location on my machine, substitute the correct path to your project
-   1.1. Leave the Branch Specifier set to * *
-   1.1.1. You might change this to a branch name if you don't want to build from master
+   1. Enter the repository url file:///Users/rich/projects/python/lettuce_demo
+   1. Note: That's the file location on my machine, substitute the correct path to your project
+   1. Leave the Branch Specifier set to * *
+      1. You might change this to a branch name if you don't want to build from master
 1. Under Build Triggers select 'Poll SCM' and enter the mask _*/5_*_*_*_*_. This sets up a build every 5 minutes based on changes to the repo (meaning if you committed code in the past 5 minutes it will build, if not, nothing happens)
 1. In the 'Build' section, select 'Add build Step' and pick 'Execute Shell' from that list.
-   1.1. In the 'Command' text area enter the following command;
+   1. In the 'Command' text area enter the following command;
    	```bash
    	lettuce --with-xunit --xunit-file=lettucetests.xml tests
 	```
 1. Under 'Post Build Actions' Add 'Publish xUnit test results report'
-   1.1. Select 'Add' and pick 'Junit' from the dropdown.
-   1.1. In the 'Junit pattern' text box enter _lettucetests.xml_ this is the same name we used as the argumnt for --xunit-file above (it is also the default value, as long as they match you will be OK)
+   1. Select 'Add' and pick 'Junit' from the dropdown.
+   1. In the 'Junit pattern' text box enter _lettucetests.xml_ this is the same name we used as the argumnt for --xunit-file above (it is also the default value, as long as they match you will be OK)
 1. Hit 'Save'
 
 ### Test the execution of you job
