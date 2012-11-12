@@ -1271,10 +1271,33 @@ In order to remove a method from the _world_ object, use the _spew_ method.
 
 ## Avoid Magic Numbers
 
-From the perspective of enhancing understanding we don't really want to
-write tests that contain magic numbers unless they really have meaning.
-As a contrived example I've added a _feature_ for a Flying Tractor in
-which the _scenario_ is defined using words like 'minimum forward speed' and 'minimum safe altitude'. 
+Sometimes, when describing a feature, we use examples. Examples are great, but if they are overly specific they can lead to stability issues in your test harness. The authors of the Cucumber book call these 'Incidental Details'.
+
+>
+>Incidental Details are details that are mentioned in the scenario but that actually have no relevance to the purpose of the scenario. This kind of irrelevant detail makes the scenario harder to read, which in turn can cause your stakeholders to lose interest in reading them.
+> -- Cucumber Book, Chapter 6, When Cucumbers Go Bad
+>
+
+Consider the following Scenario:
+
+```gherkin
+Feature: Flying Tractor Altitude Management
+         As a Tractor Operator
+         I want Altitude Management
+         So I can operate my Flying Tractor safely
+
+         Scenario: Velocity Affects Altitude
+                   Given a Flying Tractor
+                   When I operate at the minumum speed of 5 mph
+                   Then the Flying Tractor will rise to the minimum altitude of 6 inches
+```
+
+>
+> Reminder: The above is an example of how _NOT_ to do it
+>
+
+This example has magic numbers in it, 5 mph and 6 inches. The values themselves don't convey their meaning in business terms or technical terms. They are, in essance, indcidental.
+From the perspective of enhancing understanding we don't really want to write tests that contain magic numbers unless they really have meaning. As a contrived example I've added a _feature_ for a Flying Tractor in which the _scenario_ is defined using words like 'minimum forward speed' and 'minimum safe altitude'. 
 
 This example is of course totally contrived. 
 
