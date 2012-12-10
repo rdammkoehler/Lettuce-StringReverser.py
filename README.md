@@ -7,6 +7,10 @@ lessons about how Python import works, a stellar success.
 I will be adding to the project over the next few days to experiment
 with the range of features available in lettuce.
 
+>
+> Please note: This is not an attempt to describe good ATDD/Lettuce practices, but rather an exploration of the tool itself and its various features.
+>
+
 ## Usage
 
 You will need a valid/working Python environment with the lettuce
